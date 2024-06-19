@@ -11,11 +11,11 @@ import fs from 'fs';
 
 chai.use(chaiHttp);
 
-//----------------- task0
+//making task0
 
-//----------------- task1
+//making task1
 
-//----------------- task2
+//making task2
 
 describe('------------------\nTASK 2\nGET /status', () => {
     it('GET /status exists', (done) => {
@@ -105,11 +105,11 @@ describe('GET /stats', () => {
 
                 await testClientDb.collection('users').deleteMany({})
 
-                // add 2 users
+                // will add two users
                 await testClientDb.collection('users').insertOne({ email: "me@me.com" })
                 await testClientDb.collection('users').insertOne({ email: "me2@me.com" })
 
-                // add 3 files
+                // will add tree files
                 await testClientDb.collection('files').insertOne({ name: "file 1" })
                 await testClientDb.collection('files').insertOne({ name: "file 2" })
                 await testClientDb.collection('files').insertOne({ name: "file 3" })
@@ -135,7 +135,7 @@ describe('GET /stats', () => {
             });
     }).timeout(30000);
 });
-//----------------- task3
+//making the task3
 
 describe('------------------\nTASK 3\nGET /users', () => {
     let testClientDb = null;
@@ -410,7 +410,7 @@ describe('GET /users', () => {
     }).timeout(30000);
 });
 
-//----------------- task4
+//making the  task4
 
 describe('------------------\nTASK 4\nGET /connect', () => {
     let testClientDb;
@@ -608,7 +608,7 @@ describe('GET /connect', () => {
 
                 await testClientDb.collection('users').deleteMany({})
 
-                // Add 1 user
+                // will add one user
                 initialUserPwd = fctRandomString();
                 initialUser = {
                     email: `${fctRandomString()}@me.com`,
@@ -689,7 +689,7 @@ describe('GET /connect', () => {
 
                 await testClientDb.collection('users').deleteMany({})
 
-                // Add 1 user
+                // will add one user
                 initialUserPwd = fctRandomString();
                 initialUser = {
                     email: `${fctRandomString()}@me.com`,
@@ -770,7 +770,7 @@ describe('GET /disconnect', () => {
 
                 await testClientDb.collection('users').deleteMany({})
 
-                // Add 1 user
+                // will add one user
                 initialUser = {
                     email: `${fctRandomString()}@me.com`,
                     password: sha1(fctRandomString())
@@ -788,7 +788,7 @@ describe('GET /disconnect', () => {
                 testRedisClient.on('connect', async () => {
                     fctRemoveAllRedisKeys();
 
-                    // Set token for this user
+                    // Set token 
                     initialUserToken = uuidv4()
                     await redisSetAsync(`auth_${initialUserToken}`, initialUserId)
                     resolve();
@@ -858,7 +858,7 @@ describe('GET /disconnect', () => {
 
                 await testClientDb.collection('users').deleteMany({})
 
-                // Add 1 user
+                // will add one user
                 initialUser = {
                     email: `${fctRandomString()}@me.com`,
                     password: sha1(fctRandomString())
@@ -876,7 +876,7 @@ describe('GET /disconnect', () => {
                 testRedisClient.on('connect', async () => {
                     fctRemoveAllRedisKeys();
 
-                    // Set token for this user
+                    // Set token
                     initialUserToken = uuidv4()
                     await redisSetAsync(`auth_${initialUserToken}`, initialUserId)
                     resolve();
@@ -943,7 +943,7 @@ describe('GET /users/me', () => {
 
                 await testClientDb.collection('users').deleteMany({})
 
-                // Add 1 user
+                // will add one user
                 initialUser = {
                     email: `${fctRandomString()}@me.com`,
                     password: sha1(fctRandomString())
@@ -961,7 +961,7 @@ describe('GET /users/me', () => {
                 testRedisClient.on('connect', async () => {
                     fctRemoveAllRedisKeys();
 
-                    // Set token for this user
+                    // Set token
                     initialUserToken = uuidv4()
                     await redisSetAsync(`auth_${initialUserToken}`, initialUserId)
                     resolve();
@@ -1022,7 +1022,7 @@ describe('GET /users/me', () => {
 
                 await testClientDb.collection('users').deleteMany({})
 
-                // Add 1 user
+                // will add one user
                 initialUser = {
                     email: `${fctRandomString()}@me.com`,
                     password: sha1(fctRandomString())
@@ -1040,7 +1040,7 @@ describe('GET /users/me', () => {
                 testRedisClient.on('connect', async () => {
                     fctRemoveAllRedisKeys();
 
-                    // Set token for this user
+                    // Set token
                     initialUserToken = uuidv4()
                     await redisSetAsync(`auth_${initialUserToken}`, initialUserId)
                     resolve();
@@ -1120,7 +1120,7 @@ describe('GET /users/me', () => {
                 testRedisClient.on('connect', async () => {
                     fctRemoveAllRedisKeys();
 
-                    // Set token for this user
+                    // Set token
                     initialUserToken = uuidv4()
                     await redisSetAsync(`auth_${initialUserToken}`, initialUserId)
                     resolve();
@@ -1150,7 +1150,7 @@ describe('GET /users/me', () => {
     }).timeout(30000);
 });
 
-//----------------- task5
+//making the task5
 
 describe('------------------\nTASK 5\nPOST /files', () => {
     let testClientDb;
@@ -1187,7 +1187,7 @@ describe('------------------\nTASK 5\nPOST /files', () => {
                 await testClientDb.collection('users').deleteMany({})
                 await testClientDb.collection('files').deleteMany({})
 
-                // Add 1 user
+                // will Add one user
                 initialUser = {
                     email: `${fctRandomString()}@me.com`,
                     password: sha1(fctRandomString())
@@ -1205,7 +1205,7 @@ describe('------------------\nTASK 5\nPOST /files', () => {
                 testRedisClient.on('connect', async () => {
                     fctRemoveAllRedisKeys();
 
-                    // Set token for this user
+                    // Set token
                     initialUserToken = uuidv4()
                     await redisSetAsync(`auth_${initialUserToken}`, initialUserId)
                     resolve();
@@ -1280,7 +1280,7 @@ describe('POST /files', () => {
                 await testClientDb.collection('users').deleteMany({})
                 await testClientDb.collection('files').deleteMany({})
 
-                // Add 1 user
+                // will add one user
                 initialUser = {
                     email: `${fctRandomString()}@me.com`,
                     password: sha1(fctRandomString())
@@ -1298,7 +1298,7 @@ describe('POST /files', () => {
                 testRedisClient.on('connect', async () => {
                     fctRemoveAllRedisKeys();
 
-                    // Set token for this user
+                    // Set token
                     initialUserToken = uuidv4()
                     await redisSetAsync(`auth_${initialUserToken}`, initialUserId)
                     resolve();
@@ -1372,7 +1372,7 @@ describe('POST /files', () => {
                 await testClientDb.collection('users').deleteMany({})
                 await testClientDb.collection('files').deleteMany({})
 
-                // Add 1 user
+                // will Add one user
                 initialUser = {
                     email: `${fctRandomString()}@me.com`,
                     password: sha1(fctRandomString())
@@ -1390,7 +1390,7 @@ describe('POST /files', () => {
                 testRedisClient.on('connect', async () => {
                     fctRemoveAllRedisKeys();
 
-                    // Set token for this user
+                    // Set token
                     initialUserToken = uuidv4()
                     await redisSetAsync(`auth_${initialUserToken}`, initialUserId)
                     resolve();
