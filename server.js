@@ -1,7 +1,6 @@
-// server.js
 import express from 'express';
 import bodyParser from 'body-parser';
-import routes from './src/routes';
+import routes from './routes/index'; // Remove the .js extension
 
 const app = express();
 const PORT = process.env.PORT || 5000;
