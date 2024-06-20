@@ -1,15 +1,17 @@
+// server.js
 import express from 'express';
-import router from './routes/index';
-
-const port = parseInt(process.env.PORT, 10) || 5000;
+import bodyParser from 'body-parser';
+import routes from './src/routes';
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-app.use(express.json());
-app.use('/', router);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/api', routes);
 
-app.listen(port, () => {
-  console.log(`server running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
 
 export default app;
