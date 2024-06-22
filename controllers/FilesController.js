@@ -1,11 +1,6 @@
-import { v4 as uuidv4 } from 'uuid';
-import fs from 'fs';
-import path from 'path';
-import mime from 'mime-types';
+import { ObjectId } from 'mongodb';
 import dbClient from '../utils/db';
 import redisClient from '../utils/redis';
-
-const FOLDER_PATH = process.env.FOLDER_PATH || '/tmp/files_manager';
 
 class FilesController {
   static async postUpload(req, res) {
@@ -33,7 +28,7 @@ class FilesController {
     }
 
     if (parentId !== 0) {
-      const parentFile = await dbClient.db.collection('files').findOne({ _id: parentId, userId });
+      const parentFile = await dbClient.db.collection('files').findOne({ _id: new ObjectId(parentId), userId });
       if (!parentFile) {
         return res.status(400).json({ error: 'Parent not found' });
       }
@@ -63,6 +58,53 @@ class FilesController {
 
     const result = await dbClient.db.collection('files').insertOne(fileDocument);
     return res.status(201).json({ id: result.insertedId, ...fileDocument });
+  }
+
+  static async getShow(req, res) {
+    const token = req.headers['x-token'];
+    if (!token) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const key = `auth_${token}`;
+    const userId = await redisClient.get(key);
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const fileId = req.params.id;
+    const fileDocument = await dbClient.db.collection('files').findOne({ _id: new ObjectId(fileId), userId });
+
+    if (!fileDocument) {
+      return res.status(404).json({ error: 'Not found' });
+    }
+
+    return res.status(200).json(fileDocument);
+  }
+
+  static async getIndex(req, res) {
+    const token = req.headers['x-token'];
+    if (!token) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const key = `auth_${token}`;
+    const userId = await redisClient.get(key);
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { parentId = 0, page = 0 } = req.query;
+    const pageNum = parseInt(page, 10);
+    const query = { userId, parentId };
+
+    const files = await dbClient.db.collection('files')
+      .find(query)
+      .skip(pageNum * 20)
+      .limit(20)
+      .toArray();
+
+    return res.status(200).json(files);
   }
 }
 
