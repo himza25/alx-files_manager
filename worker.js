@@ -1,12 +1,10 @@
-import Queue from 'bull';
 import { ObjectId } from 'mongodb';
-import fs from 'fs';
-import path from 'path';
+import { fileQueue, userQueue } from './utils/queue';
 import imageThumbnail from 'image-thumbnail';
+import fs from 'fs';
 import dbClient from './utils/db';
 
-const fileQueue = new Queue('fileQueue');
-
+// Process fileQueue
 fileQueue.process(async (job, done) => {
   const { fileId, userId } = job.data;
 
@@ -46,3 +44,30 @@ fileQueue.on('completed', (job) => {
 fileQueue.on('failed', (job, err) => {
   console.log(`Job ${job.id} failed with error ${err.message}`);
 });
+
+// Process userQueue
+userQueue.process(async (job, done) => {
+  const { userId } = job.data;
+
+  if (!userId) {
+    return done(new Error('Missing userId'));
+  }
+
+  const userDocument = await dbClient.db.collection('users').findOne({ _id: new ObjectId(userId) });
+
+  if (!userDocument) {
+    return done(new Error('User not found'));
+  }
+
+  console.log(`Welcome ${userDocument.email}!`);
+  done();
+});
+
+userQueue.on('completed', (job) => {
+  console.log(`User welcome email job ${job.id} completed!`);
+});
+
+userQueue.on('failed', (job, err) => {
+  console.log(`User welcome email job ${job.id} failed with error ${err.message}`);
+});
+
